@@ -17,7 +17,7 @@
     var planType, lbl;
 
     try {
-        var headerMenu = document.querySelectorAll('.nav.header-dropdown li#personal-topmenu > a,.nav.header-dropdown li#corporate-topmenu > a,.nav.header-dropdown li#advisor-topmenu > a,.nav.header-dropdown li#business-topmenu > a,.nav.header-dropdown li#Career-topmenu > a');
+        var headerMenu = document.querySelectorAll("div.top_header > div.abc_home_button > a, div.abc_solutions_btn.dropdown_main.dropdown > a");
         if (headerMenu.length > 0) {
             for (var foo = 0; foo < headerMenu.length; foo++) {
                 headerMenu[foo].addEventListener('click', function () {
@@ -35,42 +35,20 @@
                 });
             }
         }
-
-        //Header menu - L2
-
-        var headerMenu = document.querySelectorAll('.nav.header-dropdown li li.level2 a');
-        if (headerMenu.length > 0) {
-            for (var foo = 0; foo < headerMenu.length; foo++) {
-                headerMenu[foo].addEventListener('click', function () {
-                    lbl = this.closest('#corporate-topmenu,#advisor-topmenu').querySelector('a').innerText.split(' ')[0] + " > " + this.closest('.level1').querySelector('span').innerText + " | " + this.innerText;
-                    if (pageType == 'Home Page') {
-                        planType = document.querySelector('.hFF__switchTab--active').innerText;
-                    }
-                    dataLayer.push({
-                        'event': 'header_menu_click',
-                        'eventCategory': 'ABSLI-Core',
-                        'eventAction': 'header menu click',
-                        'eventLabel': lbl,
-                        'planType': planType,
-                        'pageType': pageType          //Page type i.e. home page, blog page, etc.          
-                    });
-                });
-            }
-        }
     } catch (e) {
         console.log(e);
     }
 
     //Top Menu - L1 & L2
     try {
-        var topMenu = document.querySelectorAll('div.top-header-wrapper.capital-red-bg > div.top-menu li.level2 a');
+        var topMenu = document.querySelectorAll("div.abc_solutions_btn.dropdown_main.dropdown div.all_solutions_url_grid_wrapper > div.all_solutions_url_col > ul > li > a");
         if (topMenu.length > 0) {
             for (var foo = 0; foo < topMenu.length; foo++) {
                 topMenu[foo].addEventListener('click', function () {
                     if (pageType == 'Home Page') {
                         planType = document.querySelector('.hFF__switchTab--active').innerText;
                     }
-                    lbl = this.closest('.level1').querySelector('span').innerText;
+                    lbl = this.closest('.all_solutions_url_col').querySelector('span').innerText + " > "+ this.innerText;
                     dataLayer.push({
                         'event': 'top_menu_click',
                         'eventCategory': 'ABSLI-Core',
@@ -86,11 +64,35 @@
         console.log(e);
     }
 
+    try{
+        var abc_sol_outlink=document.querySelectorAll("div.abc_solutions_btn.dropdown_main.dropdown div.all_solutions_outlink_scanner_wrapper > ul > li > a");
+        if (abc_sol_outlink.length > 0) {
+            for (var foo = 0; foo < abc_sol_outlink.length; foo++) {
+                abc_sol_outlink[foo].addEventListener('click', function () {
+                    if (pageType == 'Home Page') {
+                        planType = document.querySelector('.hFF__switchTab--active').innerText;
+                    }
+                    lbl = this.innerText;
+                    dataLayer.push({
+                        'event': 'abc_solution_outlink_click',
+                        'eventCategory': 'ABSLI-Core',
+                        'eventAction': 'abc solution outlink click',
+                        'eventLabel': lbl,
+                        'planType': planType,
+                        'pageType': pageType          //Page type i.e. home page, blog page, etc.  
+                    });
+                });
+            }
+        }
+    }catch(e){
+        console.log(e);
+    }
+
     try {
         //Primary Menu
-        var primaryMenu = document.querySelectorAll('.primary-nav__list li.primary-nav__link--level1 > a, .primary-nav__other-link a');
-        var primaryMenuL2 = document.querySelectorAll('.primary-nav__link--level2 > a,.primary-nav__link--level1 > ul > li > a');
-        var primaryMenuL3 = document.querySelectorAll('.primary-nav__link--level2 > ul > li > a');
+        var primaryMenu = document.querySelectorAll("div.desktop_menu.d-none.d-lg-block > div.primary_header div.prime_drop_wrapper > ul > li > a");
+        var primaryMenuL2 = document.querySelectorAll("div.primary_header > div > div.prime_drop_wrapper > ul > li > div > div > ul > li > a");
+        var primaryMenuL3 = document.querySelectorAll("div.primary_header > div > div.prime_drop_wrapper > ul > li > div > div > ul > li > div > ul > li > a");
 
         //L1
         if (primaryMenu.length > 0) {
@@ -119,7 +121,7 @@
                     if (pageType == 'Home Page') {
                         planType = document.querySelector('.hFF__switchTab--active').innerText;
                     }
-                    lbl = this.closest('.primary-nav__link--level1').querySelector('a').innerText + " > " + this.innerHTML.split('<')[0];
+                    lbl = this.closest('.dropdown_main').querySelector('a').innerText + " > " + this.innerHTML.split('<')[0];
                     dataLayer.push({
                         'event': 'primary_menu_click',
                         'eventCategory': 'ABSLI-Core',
@@ -139,8 +141,8 @@
                     if (pageType == 'Home Page') {
                         planType = document.querySelector('.hFF__switchTab--active').innerText;
                     }
-                    lbl1 = this.closest('.primary-nav__link--level1').querySelector('a').innerText;
-                    lbl2 = this.closest('.primary-nav__link--level2').querySelector('a').innerHTML.split('<')[0];
+                    lbl1 = this.closest('.dropdown_main').querySelector('a').innerText;
+                    lbl2 = this.closest('.dropdownMain-item').querySelector('a').innerHTML.split('<')[0];
                     lbl = lbl1 + " > " + lbl2 + " > " + this.innerHTML;
                     dataLayer.push({
                         'event': 'primary_menu_click',
@@ -609,14 +611,14 @@
 
     // footer click
     try {
-        var footer_click = document.querySelectorAll('div.wb-footer .foot-link-set .foot-link-set__item a');
+        var footer_click = document.querySelectorAll(".main_footer_wrapper .tab-pane > div > ul > li > a");
         if (footer_click.length > 0) {
             for (var foo = 0; foo < footer_click.length; foo++) {
                 footer_click[foo].addEventListener('click', function () {
                     if (pageType == 'Home Page') {
                         planType = document.querySelector('.hFF__switchTab--active').innerText;
                     }
-                    var lvl1 = this.closest('.foot-link-set').querySelector('.foot-link-set__title').innerText;
+                    var lvl1 = document.querySelector('.nav-link.active').innerText;
                     var lvl2 = this.innerText;
                     lbl = lvl1 + " > " + lvl2;
                     dataLayer.push({
@@ -634,18 +636,46 @@
         console.log(e);
     }
 
+
+    // footer language option click
     try {
-        var footer_container_click = document.querySelectorAll('.footer-container a');
-        if (footer_container_click.length > 0) {
-            for (var foo = 0; foo < footer_container_click.length; foo++) {
-                footer_container_click[foo].addEventListener('click', function () {
+        var footer_lang_click = document.querySelectorAll("div.main_footer_wrapper > div.footer_left_wrapper > div.footer_language_options.d-none.d-lg-block > ul > li > a");
+        if (footer_lang_click.length > 0) {
+            for (var foo = 0; foo < footer_lang_click.length; foo++) {
+                footer_lang_click[foo].addEventListener('click', function () {
                     if (pageType == 'Home Page') {
                         planType = document.querySelector('.hFF__switchTab--active').innerText;
                     }
+                    
                     dataLayer.push({
-                        'event': 'footer_click',
+                        'event': 'footer_lang_click',
                         'eventCategory': 'ABSLI-Core',
-                        'eventAction': 'footer click',
+                        'eventAction': 'footer lang click',
+                        'eventLabel': this.innerText,
+                        'planType': planType,
+                        'pageType': pageType
+                    });
+                });
+            }
+        }
+    } catch (e) {
+        console.log(e);
+    }
+
+     // footer our subsidiary click
+     try {
+        var footer_our_subsidiary_click = document.querySelectorAll("div.footer_accordion.accordion.grey_footer_accordion.footer_content_wrap.our_subsidiaries_footer ul > li > a");
+        if (footer_our_subsidiary_click.length > 0) {
+            for (var foo = 0; foo < footer_our_subsidiary_click.length; foo++) {
+                footer_our_subsidiary_click[foo].addEventListener('click', function () {
+                    if (pageType == 'Home Page') {
+                        planType = document.querySelector('.hFF__switchTab--active').innerText;
+                    }
+                    
+                    dataLayer.push({
+                        'event': 'footer_our_subsidiary_click',
+                        'eventCategory': 'ABSLI-Core',
+                        'eventAction': 'footer our subsidiary click',
                         'eventLabel': this.innerText,
                         'planType': planType,
                         'pageType': pageType
@@ -658,14 +688,43 @@
     }
 
     try {
-        var social_click = document.querySelectorAll('.foot-link-set__list--social a');
+        var footer_grey_click = document.querySelectorAll(".grey_wrapper_tabs .footer_right_Wrapper .tab-pane div > ul > li > a");
+
+        if (footer_grey_click.length > 0) {
+            for (var foo = 0; foo < footer_grey_click.length; foo++) {
+                footer_grey_click[foo].addEventListener('click', function () {
+                    if (pageType == 'Home Page') {
+                        planType = document.querySelector('.hFF__switchTab--active').innerText;
+                    }
+
+                    var lvl1 = this.closest('.grey_wrapper_tabs').querySelector('.nav-link.active').innerText;
+                    var lvl2 = this.innerText;
+                    lbl = lvl1 + " > " + lvl2;
+
+                    dataLayer.push({
+                        'event': 'footer_grey_click',
+                        'eventCategory': 'ABSLI-Core',
+                        'eventAction': 'footer grey click',
+                        'eventLabel': lbl,
+                        'planType': planType,
+                        'pageType': pageType
+                    });
+                });
+            }
+        }
+    } catch (e) {
+        console.log(e);
+    }
+
+    try {
+        var social_click = document.querySelectorAll("div.footer_red_strip > div.footer_strip_socil > ul > li > a,.footer_socials > ul > li > a");
         if (social_click.length > 0) {
             for (var foo = 0; foo < social_click.length; foo++) {
                 social_click[foo].addEventListener('click', function () {
                     if (pageType == 'Home Page') {
                         planType = document.querySelector('.hFF__switchTab--active').innerText;
                     }
-                    var lbl = this.getAttribute('title');
+                    var lbl = this.href;
                     dataLayer.push({
                         'event': 'social_media_link_click',
                         'eventCategory': 'ABSLI-Core',

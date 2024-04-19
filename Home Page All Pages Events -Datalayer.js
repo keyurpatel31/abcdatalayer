@@ -1,17 +1,23 @@
-    //Define PageType
-    var pageType;
-    if (window.location.pathname == '/') {
-        pageType = 'Home Page';
-    } else if (window.location.pathname.match(/\/articles\//)) {
-        pageType = 'Blog Page';
-    }else if(window.location.pathname.match(/(\/)(endowment-plan|savings-plans|term-insurance|retirement-and-pension-plans|critical-illness-insurance|child-insurance-plan|ulip-plan|group-insurance-policy)(\/)(absli-akshaya-plan|vision-moneyback-plan|vision-lifesecure-plan|income-assured-plan|jeevan-bachat-plan|monthly-income-plan|vision-life-income-plus-plan|vision-endowment-plan|vision-life-income-plan|Nishchit-Laabh-Plan|nishchit-aayush-plan|absli-assured-savings-plan|absli-assured-income-plus-plan|fixed-maturity-plan|secure-plus-plan|guaranteed-milestone|savings-plan|absli-assured-flexi-savings-plan|absli-salaried-term-plan|digishield-plan|saral-jeevan-bima|anmol-suraksha-kawach|poorna-suraksha-kawach|absli-empower-pension-plan|absli-empower-pension-sp-plan|absli-saral-pension|absli-guaranteed-annuity-plus|absli-nishchit-pension-plan|cancer-insurance|critishield-plan|absli-vision-star-plan|child-future-assured-plan|absli-fortune-wealth-plan|absli-platinum-gain-plan|absli-smart-growth-plan|wealth-infinia|wealth-assure-plus-plan|wealth-max-plan|wealth-secure-plan|fortune-elite-plan|wealth-aspire-plan|protection-solutions\/employer-employee-scheme|protection-solutions\/voluntary|protection-solutions\/affinity|protection-solutions\/credit-life|retirement-solutions\/annuity_scheme|retirement-solutions\/gratuity|retirement-solutions\/leave-encashment|retirement-solutions\/post-retirement-medical-benefits-scheme)/g)){
-        pageType = "Product Page - "+window.location.pathname.replace(/\/|-/g, " ").trim();
-    }
-    else if (window.location.pathname.match(/(\/)(endowment-plan|savings-plans|term-insurance|retirement-and-pension-plans|critical-illness-insurance|child-insurance-plan|ulip-plan|group-insurance-policy|life-insurance-for-defence-personnel|sme-business-solutions)/)) {
-        pageType = "Category Page";
-    }else {
-        pageType = "Others Page";
-    }
+//Define PageType
+var pageType;
+if (window.location.pathname == '/') {
+    pageType = 'Home Page';
+} else if(window.location.pathname.match(/(\/)(endowment-plan|savings-plans|term-insurance|retirement-and-pension-plans|critical-illness-insurance|child-insurance-plan|ulip-plan|group-insurance-policy)(\/)(absli-akshaya-plan|vision-moneyback-plan|vision-lifesecure-plan|income-assured-plan|jeevan-bachat-plan|monthly-income-plan|vision-life-income-plus-plan|vision-endowment-plan|vision-life-income-plan|Nishchit-Laabh-Plan|nishchit-aayush-plan|absli-assured-savings-plan|absli-assured-income-plus-plan|fixed-maturity-plan|secure-plus-plan|guaranteed-milestone|savings-plan|absli-assured-flexi-savings-plan|absli-salaried-term-plan|digishield-plan|saral-jeevan-bima|anmol-suraksha-kawach|poorna-suraksha-kawach|absli-empower-pension-plan|absli-empower-pension-sp-plan|absli-saral-pension|absli-guaranteed-annuity-plus|absli-nishchit-pension-plan|cancer-insurance|critishield-plan|absli-vision-star-plan|child-future-assured-plan|absli-fortune-wealth-plan|absli-platinum-gain-plan|absli-smart-growth-plan|wealth-infinia|wealth-assure-plus-plan|wealth-max-plan|wealth-secure-plan|fortune-elite-plan|wealth-aspire-plan|protection-solutions\/employer-employee-scheme|protection-solutions\/voluntary|protection-solutions\/affinity|protection-solutions\/credit-life|retirement-solutions\/annuity_scheme|retirement-solutions\/gratuity|retirement-solutions\/leave-encashment|retirement-solutions\/post-retirement-medical-benefits-scheme)/g)){
+    pageType = "Product Page - "+window.location.pathname.replace(/\/|-/g, " ").trim();
+}
+else if (window.location.pathname.match(/(\/)(endowment-plan|savings-plans|term-insurance|retirement-and-pension-plans|critical-illness-insurance|child-insurance-plan|ulip-plan|group-insurance-policy|life-insurance-for-defence-personnel|sme-business-solutions)/)) {
+    pageType = "Category Page";
+}else if(window.location.pathname.match(/(\/)articles$/g)){
+    pageType="Article Page";
+}else if(window.location.pathname.match(/(\/articles\/)(term-insurance|wealth-insurance|child-insurance|health-insurance|retirement-insurance|savings-insurance|life-insurance|income-tax|your-money|group-insurance)$/g)){
+    pageType="Article Category Page";
+}else if(window.location.pathname.match(/(\/articles\/)(term-insurance|wealth-insurance|child-insurance|health-insurance|retirement-insurance|savings-insurance|life-insurance|income-tax|your-money|group-insurance)(\/.*)/g)){
+    pageType="Article Details Page";
+}else if(window.location.pathname.match(/(\/)insurance-dictionary$/g)){
+    pageType="Insurance Dictionary Page";
+}else{
+    pageType = "Others Page";
+}
 
     //Header menu - L1
     var planType, lbl;
@@ -542,6 +548,7 @@
                     if (pageType == 'Home Page') {
                         planType = document.querySelector('.hFF__switchTab--active').innerText;
                     }
+                    if(!window.location.pathname.match(/\/articles|insurance-dictionary/g)){
                     dataLayer.push({
                         'event': 'popular_search_tag_click',
                         'eventCategory': 'ABSLI-Engagement',
@@ -551,6 +558,7 @@
                         'section': 'Popular Search',
                         'pageType': pageType
                     });
+                }
                 });
             }
         }
@@ -730,6 +738,32 @@
                         'eventCategory': 'ABSLI-Core',
                         'eventAction': 'social media link click',
                         'eventLabel': lbl,
+                        'planType': planType,
+                        'pageType': pageType
+                    });
+                });
+            }
+        }
+    } catch (e) {
+        console.log(e);
+    }
+
+    //BreadCrumb
+
+    try {
+        var breadcrumb_click = document.querySelectorAll("div.website-breadcrumb > nav > a");
+        if (breadcrumb_click.length > 0) {
+            for (var foo = 0; foo < breadcrumb_click.length; foo++) {
+                breadcrumb_click[foo].addEventListener('click', function () {
+                    if (pageType == 'Home Page') {
+                        planType = document.querySelector('.hFF__switchTab--active').innerText;
+                    }
+                    var lbl = this.closest('.breadcrum-comp').innerText;
+                    dataLayer.push({
+                        'event': 'breadcrumb_click',
+                        'eventCategory': 'ABSLI-Engagemnet',
+                        'eventAction': 'breadcrumb click',
+                        'eventLabel': lbl + " > " +this.innerText,
                         'planType': planType,
                         'pageType': pageType
                     });
